@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "l3_harris_challenge"
+version = "1.0.0"
+authors = [
+    { name="Alex Pope", email="alex@aroundwithalex.dev" }
+]
+description = "Returns the location of the closest airport"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "click>=8.1.3",
+    "geopy>=2.3.0",
+    "pandas>=2.0.1" ,
+    "rich>=13.3.5"
+]
+
+[project.scripts]
+airports = "cli:closest"
