@@ -9,8 +9,8 @@ Typical Usage:
     >>> search = Searcher()
     >>> search.find_closest_airport(51.091, 1.234)
 """
+
 from os import path
-import warnings
 
 import pandas
 from geopy import Point, distance
@@ -25,8 +25,9 @@ class Searcher:
 
     Attributes:
         coords_df -> Airports co-ordinates DataFrame
-        distances -> List of distances 
+        distances -> List of distances
     """
+
     def __init__(self):
         """
         Constructor for Searcher object
@@ -48,7 +49,7 @@ class Searcher:
         file_path = path.join(path.abspath("."), "data", "uk_airport_coords.csv")
         if not path.exists(file_path):
             raise FileNotFoundError(f"{file_path} does not exist. Please add.")
-        
+
         self.coords_df = pandas.read_csv(file_path)
 
         self.distances = []
@@ -70,7 +71,7 @@ class Searcher:
         Raises:
             None
         """
-        
+
         user_location = Point(lat, long)
         latlong_df = self.coords_df[["Latitude", "Longitude"]]
         for row in latlong_df.iterrows():

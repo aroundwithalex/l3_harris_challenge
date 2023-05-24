@@ -56,12 +56,11 @@ def closest(long, lat):
         console.print(table)
 
         return 0
-    
+
     except FileNotFoundError as file_error:
         print(f"Error: {file_error}")
         return 1
-    
+
     except ValueError as val_error:
         print(f"Error: {val_error}")
         return 1
-
