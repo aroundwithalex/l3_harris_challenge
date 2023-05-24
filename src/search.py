@@ -10,6 +10,7 @@ Typical Usage:
     >>> search.find_closest_airport(51.091, 1.234)
 """
 from os import path
+import warnings
 
 import pandas
 from geopy import Point, distance
@@ -26,7 +27,7 @@ class Searcher:
         coords_df -> Airports co-ordinates DataFrame
         distances -> List of distances 
     """
-    def __init__(self, file_path=None):
+    def __init__(self):
         """
         Constructor for Searcher object
 
@@ -35,7 +36,7 @@ class Searcher:
         variable.
 
         Args:
-            file_path -> Path to co-ordinates file
+            None
 
         Returns:
             None
@@ -44,18 +45,20 @@ class Searcher:
             None
         """
 
-        if not file_path:
-            file_path = path.join(path.abspath("."), "data", "uk_airport_coords.csv")
-
+        file_path = path.join(path.abspath("."), "data", "uk_airport_coords.csv")
+        if not path.exists(file_path):
+            raise FileNotFoundError(f"{file_path} does not exist. Please add.")
+        
         self.coords_df = pandas.read_csv(file_path)
+
         self.distances = []
 
     def find_distances(self, long, lat):
         """
         Finds distances between two co-ordinates
 
-        This method finds the distance between two co-ordinates. It applies
-        the Haversine Distance algorithm to the Pandas DataFrame to do this.
+        This method finds the distance between two co-ordinates. It returns
+        the value in kilometers and appends to a relevant list.
 
         Args:
             long -> Longitude
@@ -67,7 +70,7 @@ class Searcher:
         Raises:
             None
         """
-
+        
         user_location = Point(lat, long)
         latlong_df = self.coords_df[["Latitude", "Longitude"]]
         for row in latlong_df.iterrows():
@@ -80,7 +83,7 @@ class Searcher:
 
     def find_closest_airport(self):
         """
-        Returns the closest airpot to the user
+        Returns the closest airport to the user
 
         This method returns the closest airport to the user. It does this by
         appending the distances to the DataFrame and finding the smallest one.

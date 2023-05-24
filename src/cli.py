@@ -36,22 +36,32 @@ def closest(long, lat):
         None
     """
 
-    search = Searcher()
-    search.find_distances(long, lat)
-    data = search.find_closest_airport()
+    try:
+        search = Searcher()
+        search.find_distances(long, lat)
+        data = search.find_closest_airport()
 
-    table = Table(title="Closest Airport")
-    table.add_column("Airport Name")
-    table.add_column("ICAO")
-    table.add_column("Latitude")
-    table.add_column("Longitude")
-    table.add_column("Distance (km)")
+        table = Table(title="Closest Airport")
+        table.add_column("Airport Name")
+        table.add_column("ICAO")
+        table.add_column("Latitude")
+        table.add_column("Longitude")
+        table.add_column("Distance (km)")
 
-    table.add_row(
-        str(data[0]), str(data[1]), str(data[2]), str(data[3]), f"{data[4]:.2f}"
-    )
+        table.add_row(
+            str(data[0]), str(data[1]), str(data[2]), str(data[3]), f"{data[4]:.2f}"
+        )
 
-    console = Console()
-    console.print(table)
+        console = Console()
+        console.print(table)
 
-    return 0
+        return 0
+    
+    except FileNotFoundError as file_error:
+        print(f"Error: {file_error}")
+        return 1
+    
+    except ValueError as val_error:
+        print(f"Error: {val_error}")
+        return 1
+
